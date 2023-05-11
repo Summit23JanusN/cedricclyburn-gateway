@@ -68,6 +68,15 @@ public class SummitBackendResource {
         ).build();
     }
 
+    @POST
+    @Path("poi/add/point")
+    public Response loadCustomPoi(PoiRecord record) {
+        SUMMIT_POI_RECORDS.add(record);
+        return Response.created(
+            UriBuilder.fromPath("fake/poi/find/"+(SUMMIT_POI_RECORDS.size()-1)).build()
+        ).entity("inserted custom data point").build();
+    }
+
     //Uncomment the Java method below to add an API endpoint to add your own data points.
     
     /*
