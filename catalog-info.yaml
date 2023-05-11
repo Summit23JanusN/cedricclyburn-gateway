@@ -1,0 +1,68 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: cedricclyburn-poi-gateway-app-dev
+  annotations:
+    argocd/app-name: cedricclyburn-poi-gateway-app-dev
+    backstage.io/kubernetes-id: cedricclyburn-poi-gateway-app-dev
+    backstage.io/kubernetes-namespace: cedricclyburn
+    backstage.io/kubernetes-label-selector: 'app.kubernetes.io/instance=cedricclyburn-poi-gateway-app-dev'
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: Summit23JanusN/cedricclyburn-gateway
+  tags:
+    - java
+    - quarkus
+    - maven
+    - workshop
+  links:
+    - url: https://console-openshift-console.apps.summit23bis.17gd.p1.openshiftapps.com/dev-pipelines/ns/cedricclyburn/
+      title: Pipelines
+      icon: web
+    - url: https://console-openshift-console.apps.summit23bis.17gd.p1.openshiftapps.com/k8s/ns/cedricclyburn/deployments/poi-gateway-app
+      title: Deployment
+      icon: web
+    - url: https://devspaces.apps.summit23bis.17gd.p1.openshiftapps.com/#https://github.com/Summit23JanusN/cedricclyburn-gateway?che-editor=che-incubator/che-code/latest&devfilePath=.devfile-vscode.yaml
+      title: OpenShift Dev Spaces (VS Code)
+      icon: web
+spec:
+  type: service
+  lifecycle: production
+  owner: "user:ryanj"
+  system: workshop-system-cedricclyburn
+  providesApis:
+    - gateway-api-cedricclyburn
+  consumesApis:
+    - backend-api-cedricclyburn
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: workshop-system-cedricclyburn
+  tags:
+    - backstage
+    - janus-idp
+    - openshift
+    - workshop
+    - rh-summit
+spec:
+  owner: "user:ryanj"
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: gateway-api-cedricclyburn
+  description: API surface exposed to interact with Backends (summit POIs + parks data) via the Gateway
+  links:
+    - url: http://poi-gateway-app-cedricclyburn.apps.summit23bis.17gd.p1.openshiftapps.com/q/swagger-ui
+      title: Swagger UI
+      icon: web
+    - url: https://github.com/Summit23JanusN/cedricclyburn-gateway/tree/main/src/main/resources/META-INF/openapi.yaml
+      title: API Spec
+      icon: code
+spec:
+  type: openapi
+  lifecycle: production
+  owner: "user:ryanj"
+  system: workshop-system-cedricclyburn
+  definition:
+    $text: https://github.com/Summit23JanusN/cedricclyburn-gateway/tree/main/src/main/resources/META-INF/openapi.yaml
